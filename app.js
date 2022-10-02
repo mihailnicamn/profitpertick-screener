@@ -7,7 +7,6 @@ function getData(pairList) {
         type: 'GET',
         dataType: 'json',
         success: function(data) {
-            console.log(data);
             parse(data, pairList)
         }
     });
@@ -70,7 +69,6 @@ setInterval(function() {
     $("#pairList").val(decodeURIComponent(getUrlParameter("pairs")))
     pairListRaw = $('#pairList').val();
     pairList = pairListRaw.split(';');
-    console.log(pairList);
     getData(pairList);
 }, 5000);
 
@@ -93,7 +91,6 @@ function parse(data, pairList) {
                 let min_tick = JSON.parse(localStorage.getItem('symbols_minticks')).find(function(symbol) {
                     return symbol.symbol == pair.symbol;
                 }).minTick;
-                console.log("------------------", min_tick);
                 let symbol = pair.symbol;
                 let price = pair.lastPrice;
                 let volume = pair.volume;
@@ -108,10 +105,9 @@ function parse(data, pairList) {
                 let Dvolatility = parseFloat(Dpvolatility) * parseFloat(bppop);
                 let change = pair.priceChangePercent;
 
-                console.log("high: "+pair.highPrice+"\nlow: "+pair.lowPrice+"\np_vol: "+p_vol, "\nmin_tick: "+min_tick, "\nDpvolatility: "+Dpvolatility);
                 html += '<tr><td>' + symbol + '</td><td>' + parseFloat(price) + '</td><td>' + parseFloat(min_tick) + '</td><td>'+parseFloat(bppop)+'</td></tr>';
                 tabledata.push({ "symbol": symbol, "price": parseFloat(price),"p_vol":parseInt(Dpvolatility),"Dvolatility":parseFloat(Dvolatility)+"%","change":parseFloat(change)+"%", "min_tick": parseFloat(min_tick), "ppbp": parseInt(ppbp), "volume": parseFloat(vol), "volpppbp": parseFloat(volpppbp).toFixed(2), "pp_vol": parseFloat(pp_vol).toFixed(2), "pp_volpppbp": parseFloat(pp_volpppbp).toFixed(2) , "bppop": bppop});
-                console.log(ppbp)
+
             }
         });
     });
